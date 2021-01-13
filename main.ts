@@ -55,6 +55,44 @@ export default class MyPlugin extends Plugin {
 				}
 			}
 		});
+
+		this.registerDomEvent(document, 'keydown', (keyboardPressEvent: KeyboardEvent) => {
+			console.log('>> keyboardPressEvent.key', keyboardPressEvent.key);
+			console.log('>> keyboardPressEvent.getModifierState', keyboardPressEvent.getModifierState);
+			if (keyboardPressEvent.getModifierState("Alt") && keyboardPressEvent.getModifierState("Control") && !(keyboardPressEvent.getModifierState("Meta"))) {
+				if (keyboardPressEvent.key == "ƒ") {
+					let editor = this.app.workspace.activeLeaf.view.sourceMode.cmEditor;
+					let cursorHead = editor.getCursor("head");
+					let cursorAnchor = editor.getCursor("anchor");
+					let doc = editor.getDoc();
+					let lineLength = doc.getLine(cursorHead.line).length;
+					// if (keyboardPressEvent.getModifierState("Shift")) { // select next word
+					// 	console.log("control, alt and shift are held");
+					// 	editor.execCommand("")
+					// } else { // next word
+						editor.execCommand("goWordRight");
+					// }
+				}
+			}
+		});
+
+		this.registerDomEvent(document, 'keydown', (keyboardPressEvent: KeyboardEvent) => {
+			if (keyboardPressEvent.getModifierState("Alt") && keyboardPressEvent.getModifierState("Control") && !(keyboardPressEvent.getModifierState("Meta"))) {
+				if (keyboardPressEvent.key == "∫") {
+					let editor = this.app.workspace.activeLeaf.view.sourceMode.cmEditor;
+					let cursorHead = editor.getCursor("head");
+					let cursorAnchor = editor.getCursor("anchor");
+					let doc = editor.getDoc();
+					let lineLength = doc.getLine(cursorHead.line).length;
+					// if (keyboardPressEvent.getModifierState("Shift")) { // select next word
+					// 	console.log("control, alt and shift are held");
+					// 	editor.execCommand("")
+					// } else { // next word
+						editor.execCommand("goWordLeft");
+					// }
+				}
+			}
+		});
 	}
 
 	onunload() {
